@@ -6,6 +6,7 @@ const { auth } = require('../middlewares/auth.js');
 const { uploadFile } = require('../middlewares/UploadFile.js');
 const { uploadUserPicture } = require('../middlewares/uploadUserPicture.js');
 const { uploadPostsMedia } = require('../middlewares/uploadPostMedia.js');
+const uploadExcel = require('../middlewares/uploadExcel.js');
 
 const { createDiscover, getAllDiscover, getDiscoverPageOptions } = require('../controllers/discover');
 const { createConnectData, getAllConnectData } = require('../controllers/connect');
@@ -22,7 +23,7 @@ const {
   loginViaGoogle,
   forgotPassword,
   resetPassword,
-  getUserDetail
+  getUserDetail,
 } = require('../controllers/user');
 
 const { getProvinces, getCities, getCitiesName } = require('../controllers/area');
@@ -31,6 +32,8 @@ const { postUserProfileData } = require('../controllers/profile');
 
 const { postText, getAllPosts, likePost, getPostById, deletePosts, notifPosts } = require('../controllers/post');
 const { postComment } = require('../controllers/comment');
+
+const { saveExcel, getPartners } = require('../controllers/partners.js');
 
 // discover api
 router.post('/discover', uploadFile('discoverImage'), createDiscover);
@@ -60,7 +63,7 @@ router.get('/cities', getCities);
 router.get('/cities-name', getCitiesName);
 
 // Discover Page Api
-router.get("/discover-page/options", getDiscoverPageOptions)
+router.get('/discover-page/options', getDiscoverPageOptions);
 
 // Profiles API
 router.post('/userprofiles', uploadUserPicture('profileImage'), auth, postUserProfileData);
@@ -75,5 +78,9 @@ router.get('/notif-posts', auth, notifPosts);
 
 // Comment API
 router.post('/comment', auth, postComment);
+
+// Partners
+router.post('/partners', uploadExcel.single('file'), saveExcel);
+router.get('/partners', getPartners);
 
 module.exports = router;
