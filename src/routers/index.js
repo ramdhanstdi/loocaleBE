@@ -33,7 +33,7 @@ const { postUserProfileData } = require('../controllers/profile');
 const { postText, getAllPosts, likePost, getPostById, deletePosts, notifPosts } = require('../controllers/post');
 const { postComment } = require('../controllers/comment');
 
-const { saveExcel, getPartners } = require('../controllers/partners.js');
+const { saveExcel, getPartners, getGrupingCity } = require('../controllers/partners.js');
 
 // discover api
 router.post('/discover', uploadFile('discoverImage'), createDiscover);
@@ -82,5 +82,6 @@ router.post('/comment', auth, postComment);
 // Partners
 router.post('/partners', uploadExcel.single('file'), saveExcel);
 router.get('/partners', getPartners);
+router.get('/partners-city', getGrupingCity);
 
 module.exports = router;

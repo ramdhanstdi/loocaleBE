@@ -1,5 +1,6 @@
 const { partners } = require('../../models');
 const xlsx = require('xlsx');
+const areaConfig = require('../../assets/area.json');
 
 exports.saveExcel = async (req, res) => {
   const file = req.file;
@@ -12,15 +13,24 @@ exports.saveExcel = async (req, res) => {
   const rows = [];
   data.forEach((row, index) => {
     if (index > 0) {
-      const rowData = {
-        image_url: row[0],
-        name: row[1],
-        location: row[2],
-        activity: row[3],
-        instagram: row[4],
-        whatsapp: row[5],
-      };
-      rows.push(rowData);
+      if (row[0]) {
+        const rowData = {
+          id: row[0],
+          name: row[1],
+          category: row[2],
+          provinsi: row[3],
+          lokasi: row[4],
+          servis1: row[5],
+          servis2: row[6],
+          servis3: row[7],
+          whatsapp: row[8],
+          instagram: row[9],
+          images: row[10],
+          createdAt: row[11],
+          updatedAt: row[12],
+        };
+        rows.push(rowData);
+      }
     }
   });
   try {
@@ -32,24 +42,95 @@ exports.saveExcel = async (req, res) => {
 };
 
 exports.getPartners = async (req, res) => {
-  const { activity, location } = req.query;
+  const { category, provinsi } = req.query;
   const whereCondition = {};
 
-  if (activity) {
-    whereCondition.activity = activity;
+  if (category) {
+    whereCondition.category = category;
   }
 
-  if (location) {
-    whereCondition.location = location;
+  if (provinsi) {
+    const formated = provinsi === 'DI Yogyakarta' ? 'DIY' : provinsi;
+    whereCondition.provinsi = formated;
   }
   try {
     const response = await partners.findAll({
       where: whereCondition,
     });
+
+    // Grouping Data
+    const groupedCategory = {};
+    response.forEach((item) => {
+      const { images, name, category, provinsi, lokasi, servis1, servis2, servis3, instagram, whatsapp } = item;
+      if (!groupedCategory[category]) {
+        groupedCategory[category] = {
+          category,
+          totalCount: 0,
+          data: [
+            {
+              images,
+              category,
+              name,
+              provinsi,
+              lokasi,
+              servis1,
+              servis2,
+              servis3,
+              instagram,
+              whatsapp,
+            },
+          ],
+        };
+      }
+      if (!whereCondition.hasOwnProperty('category') && groupedCategory[category].data.length < 3) {
+        groupedCategory[category].data.push({
+          images,
+          name,
+          category,
+          provinsi,
+          lokasi,
+          servis1,
+          servis2,
+          servis3,
+          instagram,
+          whatsapp,
+        });
+      }
+      if (whereCondition.hasOwnProperty('category')) {
+        groupedCategory[category].data.push({
+          images,
+          name,
+          category,
+          provinsi,
+          lokasi,
+          servis1,
+          servis2,
+          servis3,
+          instagram,
+          whatsapp,
+        });
+      }
+      groupedCategory[category].totalCount++;
+    });
+    const result = Object.values(groupedCategory);
+
+    // Custom sorting function
+    const customSort = (a, b) => {
+      if (a.category === null && b.category !== null) {
+        return 1;
+      }
+      if (a.category !== null && b.category === null) {
+        return -1;
+      }
+      return 0;
+    };
+
+    result.sort(customSort);
+
     return res.status(200).send({
       statusCode: '200',
       status: 'succes get data',
-      data: response,
+      data: result,
     });
   } catch (error) {
     console.log(error);
@@ -59,4 +140,16 @@ exports.getPartners = async (req, res) => {
       data: error,
     });
   }
+};
+
+exports.getGrupingCity = async (req, res) => {
+  if (req.query.province) {
+    const filtering = areaConfig.provinces.filter((province) =>
+      province.toLowerCase().includes(req.query.province.toLowerCase())
+    );
+
+    return res.json({ result: filtering });
+  }
+
+  return res.json({ result: areaConfig.provinces });
 };
