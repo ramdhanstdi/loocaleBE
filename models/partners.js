@@ -13,10 +13,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   partners.init(
     {
-      image_url: DataTypes.STRING,
+      images: DataTypes.STRING,
       name: DataTypes.STRING,
-      location: DataTypes.STRING,
-      activity: DataTypes.STRING,
+      category: DataTypes.STRING,
+      provinsi: DataTypes.STRING,
+      lokasi: DataTypes.STRING,
+      servis1: DataTypes.STRING,
+      servis2: DataTypes.STRING,
+      servis3: DataTypes.STRING,
       instagram: DataTypes.STRING,
       whatsapp: DataTypes.STRING,
       createdAt: DataTypes.STRING,

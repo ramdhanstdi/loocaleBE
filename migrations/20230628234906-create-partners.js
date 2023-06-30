@@ -8,25 +8,34 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      image_url: {
-        type: Sequelize.STRING,
-      },
       name: {
         type: Sequelize.STRING,
       },
-      location: {
+      category: {
         type: Sequelize.STRING,
       },
-      activity: {
-        allowNull: false,
+      provinsi: {
+        type: Sequelize.STRING,
+      },
+      lokasi: {
+        type: Sequelize.STRING,
+      },
+      servis1: {
+        type: Sequelize.STRING,
+      },
+      servis2: {
+        type: Sequelize.STRING,
+      },
+      servis3: {
         type: Sequelize.STRING,
       },
       instagram: {
-        allowNull: false,
         type: Sequelize.STRING,
       },
       whatsapp: {
-        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      images: {
         type: Sequelize.STRING,
       },
       createdAt: {
