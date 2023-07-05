@@ -62,7 +62,7 @@ exports.getPartners = async (req, res) => {
     // Grouping Data
     const groupedCategory = {};
     response.forEach((item) => {
-      const { images, name, category, provinsi, lokasi, servis1, servis2, servis3, instagram, whatsapp } = item;
+      const { images, name, category, provinsi, lokasi, servis1, servis2, servis3, instagram, whatsapp, gmaps } = item;
       if (!groupedCategory[category]) {
         groupedCategory[category] = {
           category,
