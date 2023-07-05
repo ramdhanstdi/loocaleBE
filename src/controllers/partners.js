@@ -26,8 +26,9 @@ exports.saveExcel = async (req, res) => {
           whatsapp: row[8],
           instagram: row[9],
           images: row[10],
-          createdAt: row[11],
-          updatedAt: row[12],
+          gmaps: row[11],
+          createdAt: row[12],
+          updatedAt: row[13],
         };
         rows.push(rowData);
       }
@@ -78,6 +79,7 @@ exports.getPartners = async (req, res) => {
               servis3,
               instagram,
               whatsapp,
+              gmaps,
             },
           ],
         };
@@ -94,6 +96,7 @@ exports.getPartners = async (req, res) => {
           servis3,
           instagram,
           whatsapp,
+          gmaps,
         });
       }
       if (whereCondition.hasOwnProperty('category')) {
@@ -108,6 +111,7 @@ exports.getPartners = async (req, res) => {
           servis3,
           instagram,
           whatsapp,
+          gmaps,
         });
       }
       groupedCategory[category].totalCount++;

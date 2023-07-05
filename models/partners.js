@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       servis3: DataTypes.STRING,
       instagram: DataTypes.STRING,
       whatsapp: DataTypes.STRING,
+      gmaps: DataTypes.STRING,
       createdAt: DataTypes.STRING,
       updatedAt: DataTypes.STRING,
     },

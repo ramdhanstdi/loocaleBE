@@ -38,6 +38,9 @@ module.exports = {
       images: {
         type: Sequelize.STRING,
       },
+      gmaps: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
