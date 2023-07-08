@@ -83,6 +83,7 @@ exports.getPartners = async (req, res) => {
             },
           ],
         };
+        groupedCategory[category].data.shift();
       }
       if (!whereCondition.hasOwnProperty('category') && groupedCategory[category].data.length < 3) {
         groupedCategory[category].data.push({
