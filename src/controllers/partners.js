@@ -51,7 +51,7 @@ exports.getPartners = async (req, res) => {
   }
 
   if (provinsi) {
-    const formated = provinsi === 'DI Yogyakarta' ? 'DIY' : provinsi;
+    const formated = provinsi === 'DI Yogyakarta' ? 'Yogyakarta' : provinsi;
     whereCondition.provinsi = formated;
   }
   try {
